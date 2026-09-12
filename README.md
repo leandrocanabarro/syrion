@@ -38,42 +38,22 @@ public contracts, or CI.
 
 ## Using repository memory
 
-Ask Copilot to use the `repository-memory` skill to initialize context for your
-project, resume a task, or record a handoff. The skill guides the agent; the
-helper does not summarize code automatically.
+Describe your task normally. When the Syrion instructions are active, the agent
+manages repository memory as part of the work; no manual memory commands or
+separate requests to save context are needed.
 
-For manual use, the package includes `scripts/memory.mjs`. It requires Node.js
-and Git, and the target must be a Git repository with at least one commit.
-Replace `/path/to/syrion` with the actual plugin package directory,
-and `/path/to/project` with the target repository root:
+- **Starting or resuming:** the agent initializes missing memory, reads saved
+  context, and checks which files changed before relying on previous facts.
+- **During the task:** it records meaningful decisions, their rationale,
+  validated findings, and pending work as they arise, so progress does not depend
+  on reaching the end of the conversation.
+- **At a milestone or handoff:** it consolidates verified architecture facts and
+  records what was checked and what remains to do.
 
-```sh
-node /path/to/syrion/scripts/memory.mjs init /path/to/project
-node /path/to/syrion/scripts/memory.mjs status /path/to/project
-```
-
-Run `init` once per project. It creates the memory files; then have the agent
-inspect the relevant code and populate `ARCHITECTURE.md` with verified facts.
-Run `status` when resuming work:
-
-- `uninitialized`: initialize memory before recording a handoff.
-- `current`: no relevant Git changes were detected; read the saved context.
-- `changed`: review the listed paths and revalidate affected facts.
-
-After updating architecture facts, save a concise handoff:
-
-```sh
-node /path/to/syrion/scripts/memory.mjs checkpoint /path/to/project \
-  --task "Update session validation" \
-  --summary "Updated validation and verified its tests" \
-  --next "Review the middleware integration" \
-  --files "src/auth/session.ts,tests/session.test.ts"
-```
-
-The command records your supplied summary and the current commit. It does not
-verify claims, run tests, or commit changes. Uncommitted changes remain visible
-in `status` after a checkpoint. Use the explicit Node.js invocation; the plugin
-does not register a global shell command.
+Memory is maintained by the agent following Syrion's instructions, rather than
+by a background service. Its internal helper requires Node.js and a Git
+repository with at least one commit. If memory cannot be read or saved, the agent
+reports the limitation instead of claiming that context was preserved.
 
 ## Guiding principle
 

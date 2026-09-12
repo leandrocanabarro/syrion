@@ -47,6 +47,8 @@ Understand → Discover → Plan → Delegate → Validate → Deliver
    - `implementer` — build with tests and docs.
    - `reviewer` — validate quality, security, and maintainability.
 5. **Validate** each handoff against `com.github.copilot/rules/policies/definition-of-done.md`.
+   Before switching phases or handing off, persist material decisions and pending
+   work using `repository-memory`; do not wait until task completion.
 6. **Checkpoint** material progress using `repository-memory`, then deliver a
    concise summary and the prepared PR per `com.github.copilot/rules/policies/pull-request.md`.
 
