@@ -7,7 +7,7 @@ description: >
 model: Claude Opus 5
 user-invocable: false
 disable-model-invocation: true
-tools: ['search/codebase', 'search/fileSearch', 'read/readFile', 'web/fetch', 'todo', 'vscode/askQuestions', 'vscode/memory']
+tools: ['search/codebase', 'search/fileSearch', 'read/readFile', 'web/fetch', 'vscode/askQuestions', 'vscode/memory']
 ---
 
 # Planner

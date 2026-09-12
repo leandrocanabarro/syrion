@@ -8,7 +8,7 @@ description: >
 model: GPT-5.6 Luna
 user-invocable: true
 disable-model-invocation: true
-tools: [read/readFile, search/codebase, execute/runInTerminal, agent, vscode/memory]
+tools: ['read/readFile', 'search/codebase', 'execute/runInTerminal', 'agent', 'vscode/memory']
 agents: [
   planner,
   explorer,

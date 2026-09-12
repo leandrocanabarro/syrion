@@ -7,7 +7,7 @@ description: >
 model: Claude Sonnet 5
 user-invocable: false
 disable-model-invocation: true
-tools: ['read/readFile', 'search/codebase', 'search/usages', 'search/fileSearch', 'edit/createFile', 'edit/editFiles', 'execute/runInTerminal', 'read/problems', 'todo']
+tools: ['read/readFile', 'search/codebase', 'search/usages', 'search/fileSearch', 'edit/createFile', 'edit/editFiles', 'execute/runInTerminal', 'read/problems', 'vscode/askQuestions', 'vscode/memory', 'todo']
 ---
 
 # Implementer

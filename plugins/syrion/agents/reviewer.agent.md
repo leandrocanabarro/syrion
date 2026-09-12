@@ -7,7 +7,7 @@ description: >
 model: GPT-5.6 Luna
 user-invocable: false
 disable-model-invocation: true
-tools: ['read/readFile', 'search/codebase', 'search/usages', 'read/problems', 'execute/runInTerminal', 'execute/getTerminalOutput', 'execute/testFailure']
+tools: ['read/readFile', 'search/codebase', 'search/usages', 'read/problems', 'execute/runInTerminal', 'execute/getTerminalOutput', 'execute/testFailure', 'vscode/memory']
 ---
 
 # Reviewer
