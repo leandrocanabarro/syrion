@@ -61,4 +61,4 @@ not by default.
   `using-git-worktrees`, and `finishing-a-development-branch` skills when the
   work benefits from them.
 - Keep the diff focused — no unrelated refactors or drive-by changes.
-- Meet `com.github.copilot/rules/policies/definition-of-done.md` before handing off to `reviewer`.
+- Meet `policies/definition-of-done.md` before handing off to `reviewer`.

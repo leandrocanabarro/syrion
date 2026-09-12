@@ -57,7 +57,7 @@ Our stack-specific testing conventions. This layers on top of the Superpowers
 ## Coverage
 
 - Coverage is a signal, not a goal. Meaningful assertions on critical paths matter
-  more than a percentage. Meet the threshold in `com.github.copilot/rules/policies/quality-gates.md`
+  more than a percentage. Meet the threshold in `policies/quality-gates.md`
   without writing assertion-free tests to game it.
 
 ## Dependencies

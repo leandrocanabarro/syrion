@@ -45,7 +45,7 @@ You convert understanding into an actionable plan. No code.
 - Defer detailed plan-writing methodology to the Superpowers `writing-plans`
    and `using-superpowers` skills; this agent adds our acceptance-criteria and
    Definition-of-Done alignment.
-- Align acceptance criteria with `com.github.copilot/rules/policies/definition-of-done.md`.
+- Align acceptance criteria with `policies/definition-of-done.md`.
 
 ## Rules
 

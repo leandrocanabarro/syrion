@@ -45,7 +45,7 @@ You investigate before anyone changes anything. Output is understanding, not cod
 - For open-ended "what should we build?" framing, defer to the Superpowers
   `using-superpowers` and `brainstorming` skills.
 - Consult `frontend-architecture` when mapping React app structure (Node/React
-  repos), or `com.github.copilot/rules/instructions/laravel.instructions.md` + `backend-laravel`
+  repos), or `instructions/laravel.instructions.md` + `backend-laravel`
   when mapping a Laravel repo (surfaces, guards, tenancy).
 
 ## Rules

@@ -57,4 +57,4 @@ satisfies the Definition of Done.
 - Review; do not rewrite. Hand fixes back to the `implementer`.
 - Be specific: cite files/lines and give a concrete remedy.
 - Block only on real correctness/security issues; keep nits clearly labeled.
-- Gate on `com.github.copilot/rules/policies/quality-gates.md` and the Definition of Done.
+- Gate on `policies/quality-gates.md` and the Definition of Done.

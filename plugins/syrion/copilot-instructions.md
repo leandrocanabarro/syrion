@@ -2,7 +2,7 @@
 
 These are the always-on rules for this repository. Keep them short; detailed,
 task-specific guidance lives in **skills** (`skills/`) and is loaded on
-demand. Path-specific rules live in `com.github.copilot/rules/instructions/`.
+demand. Path-specific rules live in `instructions/`.
 
 ## Stack
 
@@ -63,10 +63,10 @@ commit where it was verified. Never record secrets, PII, or chat transcripts.
 - **Plan** non-trivial work into small, verifiable tasks with acceptance criteria.
 - **Design** contracts (API shapes, component boundaries) before implementing.
 - **Build** with tests; keep changes minimal and idiomatic.
-- **Review** against `com.github.copilot/rules/policies/quality-gates.md` and the Definition of Done.
+- **Review** against `policies/quality-gates.md` and the Definition of Done.
 
 Users normally start with the `orchestrator` agent and describe the request; it
-delegates to the internal specialist agents in `com.github.copilot/agents/` (explorer,
+delegates to the internal specialist agents in `agents/` (explorer,
 planner, designer, implementer, reviewer) as needed.
 
 ## Skills
@@ -87,4 +87,4 @@ planner, designer, implementer, reviewer) as needed.
 
 - Never commit secrets. Validate input at system boundaries.
 - Follow OWASP Top 10; consult `skills/security-best-practices/`.
-- A task is not "done" until it meets `com.github.copilot/rules/policies/definition-of-done.md`.
+- A task is not "done" until it meets `policies/definition-of-done.md`.

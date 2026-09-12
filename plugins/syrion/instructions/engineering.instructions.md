@@ -16,5 +16,5 @@ applyTo: '**'
   (`testing-standards` for Vitest/Jest, `laravel-testing` for Pest).
 - Never commit secrets; validate input at system boundaries
   (`security-best-practices`).
-- A task is not done until it meets `com.github.copilot/rules/policies/definition-of-done.md`.
+- A task is not done until it meets `policies/definition-of-done.md`.
 - Comment *why*, not *what* — one short line where code can't explain itself.
