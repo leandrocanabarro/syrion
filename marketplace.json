@@ -1,0 +1,21 @@
+{
+  "name": "syrion",
+  "interface": {
+    "displayName": "Syrion Harness"
+  },
+  "owner": {
+    "name": "Leandro Canabarro"
+  },
+  "metadata": {
+    "description": "Syrion: a GitHub Copilot engineering workflow with specialist skills, policies, and evidence-backed repository memory.",
+    "version": "0.0.1"
+  },
+  "plugins": [
+    {
+      "name": "syrion",
+      "description": "Syrion: a GitHub Copilot engineering workflow with specialist skills, policies, and evidence-backed repository memory.",
+      "version": "0.0.1",
+      "source": "./plugins/syrion"
+    }
+  ]
+}
