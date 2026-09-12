@@ -1,0 +1,10 @@
+.DS_Store
+
+.worktrees/
+.github/
+
+node_modules/
+/docs/
+/scripts/
+/AGENTS.md
+/README.md

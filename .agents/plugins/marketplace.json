@@ -1,0 +1,20 @@
+{
+  "name": "syrion",
+  "interface": {
+    "displayName": "Syrion Harness"
+  },
+  "plugins": [
+    {
+      "name": "syrion",
+      "source": {
+        "source": "url",
+        "url": "./plugins/syrion"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}
