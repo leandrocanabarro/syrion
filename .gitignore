@@ -1,7 +1,12 @@
 .DS_Store
 
 .worktrees/
-.github/
+/.github/agents/
+/.github/instructions/
+/.github/memory/
+/.github/policies/
+/.github/skills/
+/.github/copilot-instructions.md
 
 node_modules/
 /docs/
