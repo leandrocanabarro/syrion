@@ -6,7 +6,7 @@ description: >
   whenever a change introduces or alters a contract. Does NOT write production code.
 model: Claude Opus 5
 user-invocable: false
-disable-model-invocation: true
+disable-model-invocation: false
 tools: ['search/codebase', 'search/usages', 'read/readFile', 'web/fetch', 'vscode/askQuestions']
 ---
 

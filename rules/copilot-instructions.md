@@ -34,7 +34,8 @@ Explore → Plan → Design → Build → Test → Review → PR
 ## Memory between sessions
 
 Conversation history is not a reliable source of repository knowledge. At the
-start of every task, use `repository-memory` and run
+start of a task, the orchestrator or standalone execution agent uses
+`repository-memory` and runs
 `node <plugin-root>/memory.mjs status .`. The agent owns initialization and
 persistence; do not require users to run memory commands or ask for a save.
 
@@ -67,7 +68,28 @@ commit where it was verified. Never record secrets, PII, or chat transcripts.
 
 Users normally start with the `orchestrator` agent and describe the request; it
 delegates to the internal specialist agents in `agents/` (explorer,
-planner, designer, implementer, reviewer) as needed.
+planner, designer, implementer, reviewer) as needed. Users can select `planner`
+for planning only and use its implementation handoff.
+
+## Resume and stop conditions
+
+- In VS Code, use `vscode/memory` for `/memories/session/plan.md`; these are
+  virtual paths, never shell paths. Read before researching and update at
+  material decisions/handoffs. Match task identity before reuse.
+- Follow `repository-memory` for durable plans and decision history in
+  `.ai/memory/`. Session memory alone is not cross-session traceability.
+- Planning-only agents write native memory and return the plan; the execution
+  agent owns repository initialization and durable writes. Delegated specialists
+  reuse the supplied context instead of repeating startup discovery.
+- Skip phases already supported by current evidence. A small, clear change needs
+  only targeted inspection, implementation, and appropriate verification.
+- Stop research once affected files, a reference pattern, constraints, and checks
+  are known. After two searches with no new evidence, record the gap and narrow
+  the question or use a stated reversible assumption. Never restart the same
+  research without changed evidence or requirements.
+- Missing optional skills/tools are not a discovery loop: report the limitation
+  once and continue with available capabilities. Finish when the requested
+  outcome is verified; do not add phases just to fill the workflow.
 
 ## Skills
 

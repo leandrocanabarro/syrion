@@ -6,7 +6,7 @@ description: >
   PR. Reports issues by severity; does NOT rewrite the code itself.
 model: GPT-5.6 Luna
 user-invocable: false
-disable-model-invocation: true
+disable-model-invocation: false
 tools: ['read/readFile', 'search/codebase', 'search/usages', 'read/problems', 'execute/runInTerminal', 'execute/getTerminalOutput', 'execute/testFailure', 'vscode/memory']
 ---
 
