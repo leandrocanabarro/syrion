@@ -2,8 +2,12 @@
 
 Deterministic checks a change must pass. These are intended to run in CI (and,
 post-MVP, via `.github/hooks/`). Agents should run the local equivalents before
-declaring a task done — automation validates what the AI decides. Use the table
-matching the project's stack (a repo may run both).
+declaring a task done. These tables are templates, not evidence that a command,
+CI job, or tool exists. Inspect the target project's scripts and configuration.
+Use applicable checks for the changed behavior and all project-required checks;
+do not add tools or dependencies merely to instantiate this template. Reuse
+recorded passing results when relevant files/configuration/environment have not
+changed. Required merge checks still apply before merge.
 
 ## Gates — Node/React stack
 
@@ -30,8 +34,7 @@ matching the project's stack (a repo may run both).
 | **Security**        | No known unpatched CVEs in dependencies                     | `composer audit`                   |
 | **Build**           | Frontend assets build succeeds (Filament/Livewire assets)   | `pnpm run build`                   |
 
-> Mirrors this repo's `.github/workflows/ci.yml` and `composer.json` scripts.
-> Adapt commands per project.
+> Examples only; confirm commands in the target repository before running them.
 
 ## Coverage threshold
 
@@ -51,4 +54,6 @@ matching the project's stack (a repo may run both).
 ## Not yet automated (MVP)
 
 Deterministic enforcement via `.github/hooks/` is a post-MVP step. Until then these
-gates live in CI and as agent-run local checks.
+gates require agent-run checks; CI enforcement exists only where the target
+project actually configures it. Do not claim hooks or CI enforcement from this
+document alone.

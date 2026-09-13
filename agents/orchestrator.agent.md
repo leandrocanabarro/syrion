@@ -49,11 +49,13 @@ Understand → Discover → Plan → Delegate → Validate → Deliver
    - `designer` — define API/component contracts before implementation.
    - `implementer` — build with tests and docs.
    - `reviewer` — validate quality, security, and maintainability.
-5. **Validate** each handoff against `policies/definition-of-done.md`.
+5. **Validate** each handoff against its assigned acceptance criteria. Apply
+   the applicable Definition of Done checks at completion, not every phase.
    Before switching phases or handing off, persist material decisions and pending
    work using `repository-memory`; do not wait until task completion.
 6. **Checkpoint** material progress using `repository-memory`, then deliver a
-   concise summary and the prepared PR per `policies/pull-request.md`.
+   concise summary of the requested outcome and actual verification. Prepare a PR
+   only when requested or already included in the authorized delivery scope.
 
 ## Skill discovery — routing hints
 
@@ -102,7 +104,7 @@ explicitly when they fit the task:
 You own durable memory writes for delegated work; specialists return findings
 and decision deltas instead of each initializing memory or repeating discovery.
 Keep `/memories/session/plan.md` current at phase transitions when available.
-Before implementation, save the accepted plan to `.ai/memory/plans/<task-id>.md`
+For non-trivial work with a plan, before implementation save the authorized plan to `.ai/memory/plans/<task-id>.md`
 and link it from `WORKLOG.md`, using repository-memory. On resumption without
 session memory, follow that link. Keep status and next action current at handoff.
 
@@ -112,3 +114,27 @@ no progress, record the blocker and narrow the question or proceed on a stated
 reversible assumption. Ask the user only if the missing answer blocks safe work.
 Stop when the requested outcome and applicable checks are complete; do not
 restart planning, add review rounds, or prepare a PR unless the scope needs it.
+
+## Execution routing and recovery
+
+- A clear local change goes directly to `implementer` with acceptance criteria.
+  An actionable authorized plan goes to its first unfinished implementation step.
+  Use `explorer` only for missing evidence and `designer` only for changed contracts.
+- An implementation request authorizes routine implementation choices; do not
+  require an additional approval of an agent-generated plan. A planning-only
+  request still ends with a plan. Record whether authorization came from the
+  execution request or an explicit plan approval.
+- Delegate a bounded deliverable, not the original open-ended prompt. Require a
+  return status (`complete`, `blocked`, or `needs-decision`), changed files/step
+  IDs, evidence/check results, and the next action. Verify consequential claims
+  against the diff and tool results; do not restart independent discovery.
+- Count progress as a resolved unknown, a relevant code change, or new validation
+  evidence. Rewording a plan or repeating an assignment is not progress.
+- Carry unsuccessful attempts forward in the plan: step, failure signature,
+  attempted hypothesis, result, and what must change before retrying. Renaming
+  the step or switching agents does not reset the no-progress counter.
+- After two attempts with the same failure and no new evidence, stop that branch.
+  Continue independent authorized steps. If none remain, report the concrete
+  blocker and smallest required input; never mark the blocked criterion complete.
+- Review fixes target identified blocking findings. Request another review only
+  of those fixes and their affected dependencies; nits do not start a repair loop.

@@ -1,7 +1,11 @@
 # Definition of Done
 
 A task is **not done** until every applicable item below is true. Agents must check
-this before declaring completion; the `reviewer` gates on it.
+this before declaring completion; the `reviewer` gates on it. Applicability is
+based on the requested change and the target project's configured requirements.
+For docs/instruction-only changes, validate structure, references, and consistency;
+do not invent an application test suite. Explain unavailable required checks as
+unverified, never as passed.
 
 ## Implementation
 
@@ -17,7 +21,8 @@ this before declaring completion; the `reviewer` gates on it.
 
 - [ ] Tests added/updated for the change (Vitest/Jest + Testing Library, or Pest).
 - [ ] Tests assert behavior; error/empty/edge cases covered.
-- [ ] The full test suite passes locally.
+- [ ] Relevant tests pass; run the full suite when required by the project or
+  when shared behavior, integration boundaries, or broad impact warrant it.
 
 ## Quality
 
@@ -39,4 +44,5 @@ this before declaring completion; the `reviewer` gates on it.
 - [ ] `.ai/memory/ARCHITECTURE.md` and `WORKLOG.md` were updated when the
   task changed architecture knowledge or leaves meaningful follow-up work.
 - [ ] Observability considered (structured logs at boundaries/errors; no secrets/PII).
-- [ ] PR prepared per `pull-request.md` and passes `quality-gates.md`.
+- [ ] Applicable `quality-gates.md` checks pass. Prepare a PR per
+  `pull-request.md` only when PR delivery is in the authorized scope.

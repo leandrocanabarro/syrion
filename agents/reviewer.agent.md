@@ -18,13 +18,15 @@ satisfies the Definition of Done.
 ## Process
 
 1. **Against the plan.** Confirm the change does what the plan/acceptance criteria
-   said, no more and no less.
+   and the latest user corrections require. Flag plan drift against the request.
 2. **Quality.** Apply `review-core` and `code-quality`: readability, structure,
    naming, dead code, error handling.
 3. **Security.** Apply `security-best-practices`: input validation, authz, secrets,
    injection, dependency risk (OWASP Top 10).
-4. **Tests.** Confirm meaningful coverage and no over-mocking; run the suite and
-   check for failures.
+4. **Tests.** Inspect coverage of changed behavior and supplied check results.
+   Reuse successful results for the same relevant code state and environment.
+   Run missing applicable checks; repeat checks only after relevant changes,
+   failures, or an identified reliability concern.
 5. **Report by severity.** Critical issues block; majors should be fixed; minors
    are suggestions.
 
@@ -58,3 +60,17 @@ satisfies the Definition of Done.
 - Be specific: cite files/lines and give a concrete remedy.
 - Block only on real correctness/security issues; keep nits clearly labeled.
 - Gate on `policies/quality-gates.md` and the Definition of Done.
+
+## Evidence and review boundary
+
+Every blocking finding needs a file/line or symbol, a concrete trigger, observed
+or demonstrable impact, and the violated requirement or contract. Label uncertain
+risks as hypotheses and identify the check needed; do not present them as proven
+bugs. Block completion for missing required verification, stating exactly what
+could not be checked. Do not invent findings to fill severity sections.
+
+Review the changed behavior and directly affected dependencies. Optional style
+preferences and speculative redesigns are non-blocking. On a repair pass, verify
+the identified fixes and regressions they may cause; reopen other areas only
+with new evidence. Return `approved` when applicable criteria are satisfied,
+without recommending another review cycle by default.
