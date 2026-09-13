@@ -31,7 +31,7 @@ Understand → Discover → Plan → Delegate → Validate → Deliver
 ```
 
 1. **Resume context.** Load `repository-memory` first and run
-   `node <plugin-root>/scripts/memory.mjs status .`. Read the recorded
+   `node <plugin-root>/memory.mjs status .`. Read the recorded
    architecture and only its incremental diff; do a broad exploration only when
    that skill requires it.
 2. **Understand** the request. Restate the goal and success criteria in one or two

@@ -20,7 +20,7 @@ report the limitation and continue independent work without claiming a save.
 
 ## Start of a session
 
-1. Run `node <plugin-root>/scripts/memory.mjs status .` from the repository root.
+1. Run `node <plugin-root>/memory.mjs status .` from the repository root.
 2. For `uninitialized`, run `init`, then explore only enough of the repository
    to write verified initial facts. Initialization alone does not understand the
    architecture.
@@ -70,7 +70,7 @@ or an explicitly architectural refactor.
 Update `ARCHITECTURE.md` only for changed facts. Then record a concise handoff:
 
 ```sh
-node <plugin-root>/scripts/memory.mjs checkpoint . \
+node <plugin-root>/memory.mjs checkpoint . \
   --task "short task name" \
   --summary "what changed and why" \
   --next "next action or none" \

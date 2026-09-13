@@ -35,7 +35,7 @@ Explore → Plan → Design → Build → Test → Review → PR
 
 Conversation history is not a reliable source of repository knowledge. At the
 start of every task, use `repository-memory` and run
-`node <plugin-root>/scripts/memory.mjs status .`. The agent owns initialization and
+`node <plugin-root>/memory.mjs status .`. The agent owns initialization and
 persistence; do not require users to run memory commands or ask for a save.
 
 - When the state is `current`, read `.ai/memory/ARCHITECTURE.md` and the

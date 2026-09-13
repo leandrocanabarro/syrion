@@ -1,11 +1,10 @@
 {
   "name": "syrion",
   "version": "0.0.1",
-  "description": "Syrion: a GitHub Copilot engineering workflow with specialist skills, policies, and evidence-backed repository memory.",
+  "description": "Syrion is a GitHub Copilot engineering harness that gives agents a disciplined, evidence-backed workflow for understanding, changing, testing, and reviewing software.",
   "author": {
     "name": "Leandro Canabarro",
-    "email": "leandrocanabarro@gmail.com",
-    "url": "https://github.com/leandrocanabarro"
+    "email": "leandrocanabarro@gmail.com"
   },
   "homepage": "https://github.com/leandrocanabarro/syrion",
   "repository": "https://github.com/leandrocanabarro/syrion",
