@@ -2,7 +2,7 @@
 
 These are the always-on rules for this repository. Keep them short; detailed,
 task-specific guidance lives in **skills** (`skills/`) and is loaded on
-demand. Path-specific rules live in `instructions/`.
+demand.
 
 ## Stack
 
@@ -35,7 +35,7 @@ Explore → Plan → Design → Build → Test → Review → PR
 
 Conversation history is not a reliable source of repository knowledge. At the
 start of every task, use `repository-memory` and run
-`node <plugin-root>/memory.mjs status .`. The agent owns initialization and
+`node <plugin-root>/scripts/memory.mjs status .`. The agent owns initialization and
 persistence; do not require users to run memory commands or ask for a save.
 
 - When the state is `current`, read `.ai/memory/ARCHITECTURE.md` and the

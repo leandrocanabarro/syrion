@@ -2,7 +2,7 @@
 
 These are the always-on rules for this repository. Keep them short; detailed,
 task-specific guidance lives in **skills** (`skills/`) and is loaded on
-demand. Path-specific rules live in `instructions/`.
+demand.
 
 ## Stack
 
