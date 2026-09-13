@@ -4,7 +4,7 @@ description: Researches and saves an actionable plan without implementing it.
 argument-hint: Outline the goal or problem to research
 target: vscode
 model: Claude Opus 5
-user-invocable: true
+user-invocable: false
 disable-model-invocation: false
 tools: ['search/codebase', 'search/fileSearch', 'read/readFile', 'web/fetch', 'vscode/askQuestions', 'vscode/memory', 'agent']
 agents: ['explorer']
