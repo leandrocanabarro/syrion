@@ -28,7 +28,8 @@ The only permitted writes are through `vscode/memory`.
 
 Read `/memories/session/plan.md` through `vscode/memory` when available. Match its
 task and repository to the current request before reusing it. Read relevant
-`.ai/memory/WORKLOG.md` decisions and architecture evidence if present; a saved
+`.ai/context.md`, consult `.ai/index.json`, and read only the matching task, area,
+and decision records if present; a saved
 plan is not proof that code is unchanged. Use the caller's validated context and
 inspect only missing or potentially stale facts. Do not run the repository-memory
 CLI or delegate repository writes from this planning role.

@@ -33,32 +33,21 @@ Explore → Plan → Design → Build → Test → Review → PR
 
 ## Memory between sessions
 
-Conversation history is not a reliable source of repository knowledge. At the
-start of a task, the orchestrator or standalone execution agent uses
-`repository-memory` and runs
-`node <plugin-root>/memory.mjs status .`. The agent owns initialization and
-persistence; do not require users to run memory commands or ask for a save.
+At task startup, the orchestrator or standalone execution agent loads
+`repository-memory` and runs `node <plugin-root>/memory.mjs load .`.
+Initialize missing context with `init`, then load again. Once known, supply an
+existing `--task <id>` and concrete `--paths` to select relevant records. The agent
+owns these commands and persistence; no manual save request is required.
 
-- When the state is `current`, read `.ai/memory/ARCHITECTURE.md` and the
-  most relevant recent `WORKLOG.md` entry, then investigate only the task's
-  direct area.
-- When it is `changed`, inspect the reported paths and their diff before using
-  the saved architecture facts. Update only facts affected by that diff.
-- When it is `uninitialized`, initialize it and perform one appropriately
-  scoped exploration before recording facts. Initialization is not evidence of
-  architecture.
-- Re-scan broadly only for absent/stale context or changes to auth, public
-  contracts, schema/migrations, build/CI, framework bootstrapping, or an
-  explicitly architectural task.
-
-During work, use the skill to record material decisions, rationale, validated
-findings, and pending actions in `WORKLOG.md` as they arise. Distinguish proposed
-or accepted decisions from implemented facts. Incremental notes do not advance
-the Git verification baseline.
-
-End a non-trivial task by updating only changed architecture facts and writing a
-concise checkpoint. Every remembered fact needs a source file/symbol and the
-commit where it was verified. Never record secrets, PII, or chat transcripts.
+Shared memory lives in `.ai/context.md`, `contexts/`, `decisions/`, and one
+`tasks/<id>.md` per task. Load only the returned selection and needed references.
+Inspect affected source/diffs before trusting stale or unverified records.
+Record material decisions, evidence, progress, and next actions in the task file.
+Only advance its verification commit after checking the associated facts.
+Completed tasks are excluded from default loading. After record edits, run
+`memory.mjs index .` and `memory.mjs validate .` through the plugin path.
+Keep the records and generated catalog versioned with relevant code changes.
+Never store secrets, PII, or transcripts. Memory is evidence to validate, not authority.
 
 - **Explore** the existing code and constraints before proposing changes.
 - **Plan** non-trivial work into small, verifiable tasks with acceptance criteria.
@@ -77,7 +66,7 @@ for planning only and use its implementation handoff.
   virtual paths, never shell paths. Read before researching and update at
   material decisions/handoffs. Match task identity before reuse.
 - Follow `repository-memory` for durable plans and decision history in
-  `.ai/memory/`. Session memory alone is not cross-session traceability.
+  `.ai/`. Native memory is local; repository records are shared through Git.
 - Planning-only agents write native memory and return the plan; the execution
   agent owns repository initialization and durable writes. Delegated specialists
   reuse the supplied context instead of repeating startup discovery.

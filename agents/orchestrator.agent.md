@@ -32,9 +32,8 @@ Understand → Discover → Plan → Delegate → Validate → Deliver
 
 1. **Resume context.** Read `/memories/session/plan.md` when available and match
    its task/repository. Reuse completed steps and accepted decisions. Load `repository-memory` first and run
-   `node <plugin-root>/memory.mjs status .`. Read the recorded
-   architecture and only its incremental diff; do a broad exploration only when
-   that skill requires it.
+   `node <plugin-root>/memory.mjs load .`. Use the selected documents and freshness warnings; once known,
+   supply an existing task ID and concrete paths. Initialize only if missing.
 2. **Understand** the request. Restate the goal and success criteria in one or two
    sentences. Ask a clarifying question only if the task is genuinely ambiguous.
 3. **Discover** which specialists and skills are needed. Select the *minimum* set
@@ -53,7 +52,7 @@ Understand → Discover → Plan → Delegate → Validate → Deliver
    the applicable Definition of Done checks at completion, not every phase.
    Before switching phases or handing off, persist material decisions and pending
    work using `repository-memory`; do not wait until task completion.
-6. **Checkpoint** material progress using `repository-memory`, then deliver a
+6. **Persist** material progress using `repository-memory`, then deliver a
    concise summary of the requested outcome and actual verification. Prepare a PR
    only when requested or already included in the authorized delivery scope.
 
@@ -104,9 +103,9 @@ explicitly when they fit the task:
 You own durable memory writes for delegated work; specialists return findings
 and decision deltas instead of each initializing memory or repeating discovery.
 Keep `/memories/session/plan.md` current at phase transitions when available.
-For non-trivial work with a plan, before implementation save the authorized plan to `.ai/memory/plans/<task-id>.md`
-and link it from `WORKLOG.md`, using repository-memory. On resumption without
-session memory, follow that link. Keep status and next action current at handoff.
+For non-trivial work with a plan, before implementation save the authorized plan to `.ai/tasks/<task-id>.md`
+with repository-memory metadata. On resumption, load that task by ID. Keep status
+and next action current at handoff; regenerate and validate `.ai/index.json`.
 
 Do not send the same assignment to a specialist twice without a changed input,
 a failed acceptance criterion, or a new hypothesis. After two attempts produce

@@ -17,78 +17,125 @@ instead of repeatedly scanning the entire codebase.
 - **Stack-aware skills:** Node.js/React and PHP/Laravel guidance, plus quality,
   testing, API design, and security practices.
 - **Repository memory:** a small, reviewable state that lets the agent inspect
-  only changes since its last checkpoint.
+  relevant records and changes since each record’s verification commit.
 
-## Repository memory
+## Shared repository memory
 
-Syrion stores durable task context in the target repository:
+Syrion keeps team context in versioned Markdown in the target repository:
 
 ```text
-.ai/memory/
-├── state.json        # last verified commit and checkpoint metadata
-├── ARCHITECTURE.md    # source-linked architecture facts
-├── plans/            # accepted plans with step status and decision IDs
-└── WORKLOG.md         # concise handoffs, decisions, and next actions
+.ai/
+├── context.md        # short overview (maximum 4,000 characters)
+├── contexts/         # source-linked knowledge by area
+├── decisions/        # rationale and consequences of decisions
+├── tasks/            # one plan/progress record per task or issue
+├── archive/          # completed records, excluded from default loading
+└── index.json        # generated metadata catalog, no duplicated bodies
 ```
 
-At the start of a task, the agent compares Git changes against the saved commit,
-including uncommitted and untracked files. It uses those paths to inspect relevant
-diffs and refresh affected facts. Broad exploration is required when usable
-context is missing or for cross-cutting changes such as authentication, schemas,
-public contracts, or CI.
+Describe the task normally. The execution agent initializes missing memory and
+loads relevant records automatically by following the repository-memory skill.
+The CLI requires Node.js and Git; loading requires at least one commit.
 
-## Using repository memory
+```sh
+node <plugin-root>/memory.mjs init .
+node <plugin-root>/memory.mjs load .
+node <plugin-root>/memory.mjs load . --task login --paths src/auth/login.ts
+```
 
-Describe your task normally. When the Syrion instructions are active, the agent
-manages repository memory as part of the work; no manual memory commands or
-separate requests to save context are needed.
+The loader prioritizes the overview, named task, area records matching supplied
+or uncommitted paths, and explicit related records. With no known task or paths,
+it returns the overview and a compact reference catalog; the agent locates the
+source and requests the relevant area next. Completed/superseded and archived
+records require an explicit task ID or relationship to load.
 
-- **Starting or resuming:** the agent initializes missing memory, reads saved
-  context, and checks which files changed before relying on previous facts.
-- **During the task:** it records meaningful decisions, their rationale,
-  validated findings, and pending work as they arise, so progress does not depend
-  on reaching the end of the conversation.
-- **At a milestone or handoff:** it consolidates verified architecture facts and
-  records what was checked and what remains to do.
+Output is limited to 12,000 characters by default (`--budget` overrides this).
+Documents that do not fit are listed for on-demand reading, never silently cut in
+half. The limit includes headers and references. The CLI reads Markdown locally
+to derive current metadata, even if the index is stale; the model receives only
+the bounded selection. This bounds model context, not filesystem scan cost.
 
-Memory is maintained by the agent following Syrion's instructions, rather than
-by a background service. Its internal helper requires Node.js and a Git
-repository with at least one commit. If memory cannot be read or saved, the agent
-reports the limitation instead of claiming that context was preserved.
+Each record has metadata, for example:
 
-## Guiding principle
+```yaml
+---
+id: auth-context
+status: active
+paths: ["src/auth/**", "tests/auth/**"]
+related: ["decisions/session-storage.md"]
+verified_at: unverified
+---
+```
 
-Repository memory is never an independent source of truth. Every recorded fact
-must cite the relevant file or symbol and its verification commit. When evidence
-is absent, Syrion requires the agent to inspect the code rather than invent
-context.
+Use unique IDs and existing related paths relative to `.ai/`. Metadata supports
+plain/quoted scalar values and JSON arrays or YAML block lists, not arbitrary
+YAML. Status values: `active`, `draft`, `blocked`, `complete`, `superseded`.
+Path globs support `*`, `**`, and `?`. After inspecting the sources, replace
+`unverified` with the full Git commit hash. Cite source files/symbols in the body;
+label uncommitted observations as working-tree evidence. Each record has its own
+verification baseline. Changed associated paths produce a possible-staleness
+warning; unavailable or non-ancestor commits require revalidation. The loader
+never advances baselines or proves that the prose is true.
+
+## Maintaining and sharing records
+
+The agent updates a task file at material milestones, including decisions,
+checks, blockers, and the next action. Accepted decisions and implementation facts
+are distinct. Native memory is optional local working storage; `.ai/` is the
+shared record, and code remains authoritative.
+
+```sh
+node <plugin-root>/memory.mjs index .
+node <plugin-root>/memory.mjs validate .
+```
+
+The deterministic index is regenerated from Markdown after edits or merges.
+Validation rejects malformed metadata, duplicate IDs, broken `related` links,
+records above their size limit, and a stale index. The overview is limited to
+4,000 characters and other records to 16,000, including metadata. Split oversized
+records into related documents. Mark tasks `complete` to exclude them automatically;
+moving them into `archive/` is optional and requires updating incoming links.
+
+Commit memory changes alongside relevant code in the same PR. Teammates see
+progress after the branch is pushed; merged records become the shared baseline.
+Resolve conflicts in task/area files first, then regenerate the index. No single
+worklog or global verification commit is edited by every task.
+
+For a consuming project's CI, run `node <plugin-root>/memory.mjs validate .` after
+making the Syrion helper available. CI must validate the checked-in index, not
+regenerate it before checking. This repository's workflow runs the CLI integration
+tests and validates its own `.ai/` when present. Validation checks structural
+consistency; source freshness is reported by `load` for agent review.
+
+Automatic startup currently depends on agent instructions. No editor startup
+hook, daemon, automatic commit, or background synchronization is installed.
+If the helper is unavailable, the agent reports that and uses targeted file reads.
+
+## Migration from the old memory format
+
+`init` is idempotent and preserves `.ai/memory/`. The loader warns when legacy
+records exist and excludes them from its new catalog. Migrate relevant
+`ARCHITECTURE.md`, `WORKLOG.md`, and plan content into area/decision/task files,
+preserving evidence and unfinished work. Review before deleting legacy records.
+There is no automatic semantic migration. The former `status` and `checkpoint`
+commands are replaced by `load`, Markdown edits, `index`, and `validate`.
 
 ## VS Code planning and resumption
 
-Select `planner` to research a task without changing repository files. It saves
-its working plan with `vscode/memory` at `/memories/session/plan.md`, presents it
-in chat, and provides **Start Implementation** (to `orchestrator`) and **Open in
-Editor** handoffs. The orchestrator saves the accepted plan in
-`.ai/memory/plans/<task-id>.md`, records its link in `WORKLOG.md`, and delegates
-only unfinished work. Specialists are enabled for subagent invocation.
+The planner keeps its working plan at `/memories/session/plan.md` using
+`vscode/memory` and returns it in chat. Execution saves the authorized plan as
+`.ai/tasks/<task-id>.md` and resumes unfinished steps. Planning-only agents read
+selected repository files without invoking the CLI or editing the repository.
+Optional `/memories/repo/syrion.md` contains local pointers to shared records.
+These native paths are virtual tool paths, never shell paths.
 
-The plan tracks decision IDs, rationale, evidence, completed steps, verification
-results, and the next action. Repeated searches without new evidence stop after
-two attempts; accepted decisions reopen only when requirements or evidence change.
-These are agent instructions, not a runtime loop limiter or a background saver.
+To check the integration, request a small plan and use **Start Implementation**.
+Verify that execution persists a task file and regenerates its index. In a new
+conversation, request the task by ID and verify selective loading before research.
+Editing this checkout does not update an installed plugin copy.
 
-VS Code session memory is scoped to a conversation. Optional
-`/memories/repo/syrion.md` can index stable project knowledge across conversations
-on the same workspace, but is not shared through Git. Repository files preserve
-reviewable history when versioned. When native memory is unavailable, the planner
-returns its plan in chat and execution uses repository memory.
+## Development checks
 
-To check the flow in VS Code, open a `planner` session, request a small plan,
-confirm the memory tool saved it, then use **Start Implementation**. Verify the
-orchestrator resumes its steps and writes the durable plan link. In a new
-conversation, request resumption and verify it reads that link before searching.
-Make sure the installed plugin exposes the updated agents in Chat: Open
-Customizations; editing this checkout alone does not update an installed copy.
-
-References: [VS Code memory](https://code.visualstudio.com/docs/agents/run/memory)
-and [custom agents and handoffs](https://code.visualstudio.com/docs/agent-customization/custom-agents).
+```sh
+node --test tests/memory.test.mjs
+```

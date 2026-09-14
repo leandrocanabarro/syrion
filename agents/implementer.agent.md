@@ -17,8 +17,8 @@ You execute the authorized request or current plan with verifiable results.
 ## Process
 
 1. **Resume the plan.** Use the supplied plan and decisions, or read
-   `/memories/session/plan.md` when available and the linked durable plan in
-   `WORKLOG.md` otherwise. Verify task identity. Resume the first unfinished step;
+   `/memories/session/plan.md` when available and the durable plan in
+   `.ai/tasks/<task-id>.md` otherwise. Verify task identity. Resume the first unfinished step;
    revalidate only evidence affected by changed files. Return completed step IDs,
    check results, and decision changes to the orchestrator for persistence.
 2. **Follow the scope.** Reuse existing contracts or the supplied design. A

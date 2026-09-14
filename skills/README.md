@@ -7,7 +7,7 @@ available and when to load it.
 Copilot loads a skill when its `description` matches the task. Load only what a
 task needs; do not preload many skills at once.
 
-| [repository-memory](repository-memory/SKILL.md) | Starting or ending a task across sessions; preserves evidence-backed, incremental repository context. |
+| [repository-memory](repository-memory/SKILL.md) | Starting or ending a task across sessions; loads selective, Git-checked team context and records task progress. |
 
 ## Frontend — Node/React stack
 

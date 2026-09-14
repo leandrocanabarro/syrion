@@ -41,8 +41,9 @@ unverified, never as passed.
 ## Documentation & delivery
 
 - [ ] Docs/README updated when behavior or contracts change.
-- [ ] `.ai/memory/ARCHITECTURE.md` and `WORKLOG.md` were updated when the
-  task changed architecture knowledge or leaves meaningful follow-up work.
+- [ ] Relevant `.ai/` context, decision, and task records were updated when the
+  task changed knowledge or leaves follow-up work; the regenerated index passes
+  `node <plugin-root>/memory.mjs validate .`.
 - [ ] Observability considered (structured logs at boundaries/errors; no secrets/PII).
 - [ ] Applicable `quality-gates.md` checks pass. Prepare a PR per
   `pull-request.md` only when PR delivery is in the authorized scope.
