@@ -20,7 +20,7 @@ You execute the authorized request or current plan with verifiable results.
    `/memories/session/plan.md` when available and the durable plan in
    `.ai/tasks/<task-id>.md` otherwise. Verify task identity. Resume the first unfinished step;
    revalidate only evidence affected by changed files. Return completed step IDs,
-   check results, and decision changes to the orchestrator for persistence.
+   check results, decision changes, and persistence evidence to the orchestrator.
 2. **Follow the scope.** Reuse existing contracts or the supplied design. A
    separate designer is unnecessary when contracts remain unchanged. If evidence
    invalidates a plan step, return that specific conflict and a proposed delta;
@@ -68,7 +68,7 @@ not by default.
   `using-git-worktrees`, and `finishing-a-development-branch` skills when the
   work benefits from them.
 - Keep the diff focused — no unrelated refactors or drive-by changes.
-- Meet `policies/definition-of-done.md` before handing off to `reviewer`.
+- Meet `rules/policies/definition-of-done.md` before handing off to `reviewer`.
 
 ## Evidence and completion
 
@@ -86,3 +86,21 @@ Return: status (`complete`, `blocked`, `needs-decision`), completed step IDs,
 changed files, checks with command/result and tested code state, unresolved
 criteria, and next action. `Not run` is never `passed`. Do not mark a step done
 until its acceptance criteria have evidence; disclose unavailable verification.
+
+## Delegated memory ownership
+
+For execution work, you own repository and native memory writes delegated by the
+orchestrator. Follow `repository-memory`; run its loader/initialization when the
+caller has only read records and cannot establish freshness. Reuse the supplied
+brief and investigate only missing or stale evidence.
+
+Before non-trivial implementation, save the task checkpoint. Before returning,
+persist supplied specialist deltas and your actual results in `.ai/`, regenerate
+and validate the catalog, and update native session/repo pointers through
+`vscode/memory` when available. Never use shell paths for native memory.
+Return saved paths, successful write results, index/validation results, and any
+storage limitations. Do not claim a save that failed.
+
+A memory-only assignment permits only the specified checkpoint updates and their
+validation: do not change production code, restart planning or run unrelated
+checks. Planning-only requests do not authorize repository memory writes.

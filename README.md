@@ -10,14 +10,39 @@ instead of repeatedly scanning the entire codebase.
 
 ## What Syrion provides
 
-- **A practical engineering flow:** Explore → Plan → Design → Build → Test →
-  Review → PR.
+- **A practical engineering flow:** Resume → Delegate missing work → Verify →
+  Save checkpoint → Deliver. Run only the phases needed by the request.
 - **Specialist agents:** orchestration, exploration, planning, design,
   implementation, and review.
 - **Stack-aware skills:** Node.js/React and PHP/Laravel guidance, plus quality,
   testing, API design, and security practices.
 - **Repository memory:** a small, reviewable state that lets the agent inspect
   relevant records and changes since each record’s verification commit.
+
+## Reusable plugin rules
+
+`rules/engineering.instructions.md` is the single shared engineering baseline,
+with `applyTo: '**'`. Stack-specific instructions remain in `rules/*.instructions.md`;
+policies live in `rules/policies/`. The former `rules/AGENTS.md` and
+`rules/copilot-instructions.md` duplicates have been consolidated into that baseline.
+
+This package keeps its existing Copilot plugin format: `plugin.json` at the root,
+with `agents/`, `skills/`, and `rules/` beside it. Consumers install the plugin;
+they do not need to copy its baseline into their own `AGENTS.md` or
+`.github/copilot-instructions.md`. Those project files can hold local conventions.
+Plugin paths resolve from the installed package; commands and `.ai/` writes target
+the consuming repository. Do not edit the installed package to save project state.
+
+The plugin does not assume a particular application's domains, identity models,
+tenancy, framework versions, or test database. Capture verified project facts in
+its `.ai/contexts/` and reuse them on subsequent tasks. Host-specific capabilities
+such as `vscode/memory` require that host; repository memory uses Node.js and Git.
+Sharing instructions does not make VS Code tools available in other clients.
+
+After updating the installed plugin, inspect VS Code's loaded instructions on a
+small task: the engineering baseline should appear once, the matching stack rules
+should apply, and a second repository should receive its own memory and architecture.
+These runtime checks are separate from the memory CLI tests below.
 
 ## Shared repository memory
 
@@ -128,6 +153,24 @@ The planner keeps its working plan at `/memories/session/plan.md` using
 selected repository files without invoking the CLI or editing the repository.
 Optional `/memories/repo/syrion.md` contains local pointers to shared records.
 These native paths are virtual tool paths, never shell paths.
+
+The orchestrator loads memory before investigation and calls the specialist for
+its next unfinished step. Clear changes go directly to the implementer; an
+explorer receives only a specific evidence gap. The orchestrator has no file-edit or terminal tools and uses `vscode/memory`
+only for reading. It delegates task progress and native checkpoint writes to the
+implementer, which returns saved paths and validation evidence. Persistence is
+bundled into implementation assignments; other specialist deltas can be saved
+through a bounded memory-only assignment.
+The CLI does not write findings automatically: successful Markdown/native writes
+and catalog validation are required before claiming persistence.
+
+To check a direct change, select orchestrator and request a bounded adjustment.
+Expect memory loading, an actual implementer call (or one bounded explorer call
+if evidence is missing), and successful checkpoint writes after its return.
+There should be no automatic brainstorming or extra plan approval. In a new
+conversation, request continuation by task ID; it should resume pending steps,
+checking only missing or stale evidence. These are manual integration checks;
+CLI tests do not prove VS Code agent delegation or native memory behavior.
 
 To check the integration, request a small plan and use **Start Implementation**.
 Verify that execution persists a task file and regenerates its index. In a new

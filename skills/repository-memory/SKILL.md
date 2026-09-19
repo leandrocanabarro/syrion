@@ -14,8 +14,14 @@ Access native paths only through `vscode/memory`.
 
 ## Automatic startup
 
-The orchestrator or standalone execution agent runs these commands itself from
-the target repository root; do not require the user to initialize or save memory:
+The implementer or standalone execution agent runs these commands from the
+target repository root; do not require the user to initialize or save memory.
+The orchestrator is read-only: it reads the overview, index and selected records
+with file tools and native notes through `vscode/memory`. It delegates CLI
+loading, freshness checks, initialization and all writes to the implementer.
+Its initial reads are context, not proof of freshness. Bundle these delegated
+operations with the first implementation assignment when possible:
+
 
 ```sh
 node <plugin-root>/memory.mjs load .
@@ -44,6 +50,34 @@ merely a new session. Initialization is not evidence of architecture.
 Requires Node.js and Git; `load` needs at least one commit. If unavailable, report
 the limitation once and use targeted file reads without claiming verification.
 This is an agent instruction workflow, not an installed session hook or daemon.
+
+## Native memory and write confirmation
+
+At startup, read `/memories/session/plan.md` via `vscode/memory`. If it is absent
+or belongs to another task, consult `/memories/repo/syrion.md` when available for
+matching repository/task pointers, then load the shared records. Missing native
+notes do not justify repeating discovery when `.ai/` already has usable context.
+Use the tool's exposed operations/schema; these virtual paths are not disk paths.
+
+The CLI does not save findings or task progress: `init` creates scaffolding,
+`load` reads, `index` catalogs, and `validate` checks record structure. The execution
+owner must explicitly create/edit the Markdown records with file tools.
+
+Before non-trivial delegation and after material specialist results:
+
+1. Create/update the task record with goal, authorization source, step status,
+   decisions, source evidence, actual checks, unsuccessful attempts and next action.
+   Update an area record when findings will help later tasks.
+2. Run `index` and `validate`, checking both results.
+3. Create/update the native session plan with the same task identity and a compact
+   resume checkpoint. Keep the native repo pointer current when available.
+4. Claim persistence only after successful write results. Report the saved task
+   path at delivery, or state which store failed. Continue with available storage
+   and include unsaved deltas in the handoff; never compensate with more discovery.
+
+For a trivial task without durable findings, a native checkpoint is sufficient.
+Memory is the starting point, not proof that facts or prior authorization still
+apply: reconcile with the current request and revalidate affected evidence only.
 
 ## Shared records
 
@@ -85,7 +119,10 @@ only at completion. Cite source files/symbols and actual validation. Preserve
 unresolved work. Keep durable decisions separate from temporary notes. Never store
 secrets, personal data, transcripts, or unsupported architectural claims.
 
-The orchestrator owns shared writes; specialists return findings and deltas.
+The orchestrator coordinates persistence but never writes files or native memory.
+The implementer owns execution writes and returns saved paths and tool evidence;
+other specialists return findings and deltas. For a memory-only assignment,
+apply only supplied deltas and validate them without changing production code.
 Planning-only agents read the overview/index and selected documents using their
 file tools, write native memory only, and return the complete plan to execution.
 They do not invoke the CLI or delegate writes. Reuse caller-provided context.

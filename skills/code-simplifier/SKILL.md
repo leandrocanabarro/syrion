@@ -13,8 +13,8 @@ Analyze recently modified code and apply refinements that:
 1. **Preserve Functionality**: Never change what the code does — only how it
    does it. All original features, outputs, and behaviors must remain intact.
 
-2. **Apply Project Standards**: This repo supports both a Node/React stack and
-   a PHP/Laravel stack (see `.github/copilot-instructions.md`) — detect which
+2. **Apply Project Standards**: Syrion supports both a Node/React stack and
+   a PHP/Laravel stack — inspect the consuming project to detect which
    one the touched code belongs to and defer to the matching skill rather than
    a fixed style:
    - `code-quality` for readability, structure, naming, and avoiding

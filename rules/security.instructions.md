@@ -30,12 +30,9 @@ Baseline aligned to the OWASP Top 10. See
   content you have sanitized. Never build HTML from untrusted strings.
 - **Injection:** use Eloquent / the query builder; bind parameters in any
   `DB::raw()` / `whereRaw()` — never interpolate user input.
-- **AuthZ & IDOR:** enforce with Policies/Gates on every protected action. For
-  tenant-owned models, rely on the `BelongsToTenant` global scope rather than
-  ad-hoc `where('tenant_id', ...)`; never expose or trust a client-supplied
-  `tenant_id`.
-- **Sessions & CSRF:** keep the CSRF middleware on web routes; keep guards and
-  cookies isolated per surface (`SESSION_DOMAIN`/host-only) so one panel's
-  session can't be replayed on another.
+- **AuthZ & IDOR:** enforce with Policies/Gates on every protected action. When tenancy exists, reuse the project's verified tenant-isolation mechanism
+  and validate ownership server-side; never trust a client-supplied tenant ID.
+- **Sessions & CSRF:** keep the CSRF middleware on web routes; for applications with separate authentication surfaces, preserve their
+  configured guard and cookie isolation.
 - **Secrets:** read via `config()`, never `env()` outside `config/*.php`; never
   commit or log secrets.

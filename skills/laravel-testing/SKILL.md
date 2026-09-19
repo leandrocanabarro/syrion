@@ -71,7 +71,7 @@ skill defines *how* we write the tests, with **Pest**.
 ## Coverage
 
 - Coverage is a signal, not a goal. Meet the threshold in
-  `policies/quality-gates.md` without writing assertion-free tests.
+  `rules/policies/quality-gates.md` without writing assertion-free tests.
 
 ## Dependencies
 

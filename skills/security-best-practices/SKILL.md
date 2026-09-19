@@ -39,8 +39,9 @@ external data. Aligned to the OWASP Top 10.
 - **Blade:** `{{ }}` is auto-escaped; use `{!! !!}` only on sanitized content.
 - **Injection:** use Eloquent / the query builder; bind parameters in any
   `DB::raw()`/`whereRaw()`.
-- **AuthZ & IDOR:** enforce via Policies/Gates; for tenant-owned models rely on
-  the `BelongsToTenant` global scope, never a client-supplied `tenant_id`.
+- **AuthZ & IDOR:** enforce via Policies/Gates; when tenancy exists, reuse the project's
+  verified isolation mechanism and validate ownership server-side. Never trust
+  a client-supplied tenant ID.
 - **Sessions/CSRF:** keep CSRF middleware on web routes; isolate guards and
   cookies per surface.
 
